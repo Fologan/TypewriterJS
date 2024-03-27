@@ -1,7 +1,17 @@
 //Spanish Language. Gracias por visitar. Disfruta el código compañero!
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Verifica si la configuración está definida
+    // Buscar el contenedor específico por su clase
+    const contenedorPadre = document.querySelector('.header-loco');
+
+    // Crear un nuevo elemento div para el texto animado
+    const contenedorTexto = document.createElement('div');
+    contenedorTexto.id = 'textoAnimado'; // Asignar un ID
+    contenedorTexto.style.minHeight = '1.5em'; // Establecer una altura mínima
+
+    // Añadir el contenedor de texto animado al contenedor específico
+    contenedorPadre.appendChild(contenedorTexto);
+
+    // Verifica si la configuración está definida dentro del contenedor específico
     if (typeof configuracion !== 'undefined') {
         const textos = [configuracion['line-1'], configuracion['line-2']];
         let textoActual = textos[0];
@@ -14,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isWaiting) {
                 if (!reverse) {
                     // Muestra el texto letra por letra
-                    document.body.innerText = textoActual.slice(0, index);
+                    contenedorTexto.innerText = textoActual.slice(0, index);
                     index++;
                 } else {
                     // Borra el texto letra por letra
-                    document.body.innerText = textoActual.slice(0, index);
+                    contenedorTexto.innerText = textoActual.slice(0, index);
                     index--;
                 }
 
@@ -29,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         isWaiting = false;
                         reverse = true;
                         index--;
-                    }, 1000); // Espera 1 segundo
+                    }, 2000); // Espera 2 segundos
                 }
                 // Si hemos borrado todo el texto, cambia al siguiente texto o vuelve al primero
                 else if (index < 0 && reverse) {
@@ -41,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentTextIndex = (currentTextIndex + 1) % textos.length;
                         textoActual = textos[currentTextIndex];
                         index = 0; // Reiniciar índice para el nuevo texto
-                    }, 1000); // Espera 1 segundo
+                    }, 2000); // Espera 2 segundos
                 }
             }
         };

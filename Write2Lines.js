@@ -1,62 +1,69 @@
+//notes in spanish language
 document.addEventListener('DOMContentLoaded', () => {
-    // Buscar el contenedor específico por su clase
     const contenedorPadre = document.querySelector('.header-loco');
-
-    // Crear un nuevo elemento div para el texto animado
     const contenedorTexto = document.createElement('div');
-    contenedorTexto.id = 'textoAnimado'; // Asignar un ID
-    contenedorTexto.style.minHeight = '1.5em'; // Establecer una altura mínima
-
-    // Añadir el contenedor de texto animado al contenedor específico
+    contenedorTexto.id = 'textoAnimado';
+    contenedorTexto.style.minHeight = '1.5em';
     contenedorPadre.appendChild(contenedorTexto);
 
-    // Verifica si la configuración está definida dentro del contenedor específico
-    if (typeof configuracion !== 'undefined') {
-        const textos = [configuracion['line-1'], configuracion['line-2']];
-        let textoActual = textos[0];
-        let index = 0;
-        let reverse = false;
-        let currentTextIndex = 0;
-        let isWaiting = false;
+    // Asume configuracion ya definida en tu HTML
+    const textos = Object.values(configuracion); // Convierte los valores del objeto a un array
 
-        const updateText = () => {
-            if (!isWaiting) {
-                if (!reverse) {
-                    // Muestra el texto letra por letra
-                    contenedorTexto.innerText = textoActual.slice(0, index);
-                    index++;
-                } else {
-                    // Borra el texto letra por letra
-                    contenedorTexto.innerText = textoActual.slice(0, index);
-                    index--;
-                }
+    // Contenedor temporal para medir el ancho del texto
+    const medidor = document.createElement('span');
+    medidor.style.visibility = 'hidden'; // Posicionar fuera de la vista
+    contenedorPadre.appendChild(medidor); // Asegurar que herede el estilo del contenedor padre
 
-                // Si hemos mostrado todo el texto, prepárate para borrarlo después de una pausa
-                if (index > textoActual.length && !reverse) {
-                    isWaiting = true;
-                    setTimeout(() => {
-                        isWaiting = false;
-                        reverse = true;
-                        index--;
-                    }, 2000); // Espera 2 segundos mostrando el texto
-                }
-                // Si hemos borrado todo el texto, cambia al siguiente texto o vuelve al primero
-                else if (index < 0 && reverse) {
-                    isWaiting = true;
-                    setTimeout(() => {
-                        isWaiting = false;
-                        reverse = false; // Preparar para mostrar el nuevo texto
-                        // Cambiar al siguiente texto
-                        currentTextIndex = (currentTextIndex + 1) % textos.length;
-                        textoActual = textos[currentTextIndex];
-                        index = 0; // Reiniciar índice para el nuevo texto
-                    }, 500); // Espera .5 segundos sin texto
-                }
+    let maxWidth = 0;
+    textos.forEach(texto => {
+        // Considera el texto completo para soportar frases o configuraciones multi-palabra
+        medidor.innerText = texto;
+        maxWidth = Math.max(maxWidth, medidor.offsetWidth + 3);
+    });
+
+    // Ajusta el minWidth del contenedorTexto basado en el maxWidth encontrado
+    contenedorTexto.style.minWidth = `${maxWidth}px`;
+
+    // Limpia el medidor del DOM
+    contenedorPadre.removeChild(medidor);
+
+    // Inicia la animación con la primera línea de texto
+    let currentTextIndex = 0;
+    let textoActual = textos[currentTextIndex];
+    let index = 0;
+    let reverse = false;
+    let isWaiting = false;
+
+    const updateText = () => {
+        if (!isWaiting) {
+            if (!reverse) {
+                contenedorTexto.innerText = textoActual.slice(0, index);
+                index++;
+            } else {
+                contenedorTexto.innerText = textoActual.slice(0, index);
+                index--;
             }
-        };
 
-        setInterval(updateText, 100);
-    } else {
-        console.error('La configuración no está definida.');
-    }
+            if (index > textoActual.length && !reverse) {
+                isWaiting = true;
+                setTimeout(() => {
+                    isWaiting = false;
+                    reverse = true;
+                    index--;
+                }, 1000); // Espera 1 segundo para mostrar texto
+            } else if (index < 0 && reverse) {
+                isWaiting = true;
+                setTimeout(() => {
+                    isWaiting = false;
+                    reverse = false;
+                    // Avanza al siguiente texto o vuelve al inicio
+                    currentTextIndex = (currentTextIndex + 1) % textos.length;
+                    textoActual = textos[currentTextIndex];
+                    index = 0;
+                }, 500); // Espera de .5 segundos para el cambio de linea
+            }
+        }
+    };
+
+    setInterval(updateText, 100);
 });

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         isWaiting = false;
                         reverse = true;
                         index--;
-                    }, 2000); // Espera 2 segundos
+                    }, 1000); // Espera 1 segundo
                 }
                 // Si hemos borrado todo el texto, cambia al siguiente texto o vuelve al primero
                 else if (index < 0 && reverse) {

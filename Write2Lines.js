@@ -1,4 +1,3 @@
-//Spanish Language. Gracias por visitar. Disfruta el código compañero!
 document.addEventListener('DOMContentLoaded', () => {
     // Buscar el contenedor específico por su clase
     const contenedorPadre = document.querySelector('.header-loco');
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         isWaiting = false;
                         reverse = true;
                         index--;
-                    }, 2000); // Espera 2 segundos
+                    }, 2000); // Espera 2 segundos mostrando el texto
                 }
                 // Si hemos borrado todo el texto, cambia al siguiente texto o vuelve al primero
                 else if (index < 0 && reverse) {
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentTextIndex = (currentTextIndex + 1) % textos.length;
                         textoActual = textos[currentTextIndex];
                         index = 0; // Reiniciar índice para el nuevo texto
-                    }, 2000); // Espera 2 segundos
+                    }, 500); // Espera .5 segundos sin texto
                 }
             }
         };

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         currentTextIndex = (currentTextIndex + 1) % textos.length;
                         textoActual = textos[currentTextIndex];
                         index = 0; // Reiniciar índice para el nuevo texto
-                    }, 2000); // Espera 2 segundos
+                    }, 1000); // Espera 1 segundo
                 }
             }
         };

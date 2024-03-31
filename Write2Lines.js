@@ -1,6 +1,6 @@
 //notes in spanish language
 document.addEventListener('DOMContentLoaded', () => {
-    const contenedorPadre = document.querySelector('.header-loco');
+    const contenedorPadre = document.querySelector('.w2l');
     const contenedorTexto = document.createElement('div');
     contenedorTexto.id = 'textoAnimado';
     contenedorTexto.style.minHeight = '1.5em';

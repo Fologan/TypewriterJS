@@ -1,31 +1,41 @@
 //notes in spanish language
 document.addEventListener('DOMContentLoaded', () => {
-    const contenedorPadre = document.querySelector('.w2l');
+    const contenedorPadre = document.querySelector('#w2l');
     const contenedorTexto = document.createElement('div');
+    contenedorPadre.appendChild(contenedorTexto);
     contenedorTexto.id = 'textoAnimado';
     contenedorTexto.style.minHeight = '1.5em';
-    contenedorPadre.appendChild(contenedorTexto);
+    contenedorTexto.style.maxHeight = '1.5em';
+    contenedorTexto.style.display = 'block';
+    contenedorTexto.style.textAlign = 'center'
+    contenedorTexto.style.margin = '0';
+    contenedorTexto.style.width = 'auto';
+    contenedorTexto.style.whiteSpace = 'nowrap';
+    contenedorPadre.style.overflow='hidden';
+    contenedorPadre.style.display='flex';
+    contenedorPadre.style.justifyContent = 'center';
+    contenedorPadre.style.alignItems = 'center';
 
     // Asume configuracion ya definida en tu HTML
-    const textos = Object.values(configuracion); // Convierte los valores del objeto a un array
+    const textos = Object.values(data); // Convierte los valores del objeto a un array
 
     // Contenedor temporal para medir el ancho del texto
-    const medidor = document.createElement('span');
-    medidor.style.visibility = 'hidden'; // Posicionar fuera de la vista
-    contenedorPadre.appendChild(medidor); // Asegurar que herede el estilo del contenedor padre
+    const medidor1 = document.createElement('span');
+    medidor1.style.visibility = 'hidden'; // Posicionar fuera de la vista
+    contenedorPadre.appendChild(medidor1); // Asegurar que herede el estilo del contenedor padre
 
     let maxWidth = 0;
     textos.forEach(texto => {
         // Considera el texto completo para soportar frases o configuraciones multi-palabra
-        medidor.innerText = texto;
-        maxWidth = Math.max(maxWidth, medidor.offsetWidth + 3);
+        medidor1.innerText = texto;
+        maxWidth = Math.max(maxWidth, medidor1.offsetWidth + 3);
     });
 
     // Ajusta el minWidth del contenedorTexto basado en el maxWidth encontrado
     contenedorTexto.style.minWidth = `${maxWidth}px`;
 
     // Limpia el medidor del DOM
-    contenedorPadre.removeChild(medidor);
+    contenedorPadre.removeChild(medidor1);
 
     // Inicia la animación con la primera línea de texto
     let currentTextIndex = 0;
